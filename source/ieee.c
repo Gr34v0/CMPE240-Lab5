@@ -1,13 +1,16 @@
+#include <stdint.h>
 #include "ieee.h"
 
-#define checkBit(bit, loc) ((loc & (1 << bit)) == 0 )
+#define checkBit(bit, bitfield) ((bitfield & (1 << bit)) == 0 )
 
-typedef struct {int32t_t real; uint32_t fraction;} INT_FRACT;
+//typedef struct {int32_t real; uint32_t fraction;} INT_FRACT;
 
 
 IEEE_FLT IeeeEncode(INT_FRACT num){
 
     uint32_t loopCount;
+
+    IEEE_FLT encodedNum;
 
     //Record sign of real number, then make the real number pos
     uint32_t signBit = checkBit(31, num.real);
@@ -36,12 +39,13 @@ IEEE_FLT IeeeEncode(INT_FRACT num){
 
 
     //Calculate the bias exponent by subtracting the number of shifts from 158
-    baisExp = loopCount - 158;
+    uint32_t baisExp = loopCount - 158;
 
     //Shift the exponent into the correct position and combine it with the sign and mantissa
     
 
     //Return the IEEE number
+    return encodedNum;
 
 }
 
